@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#075e54" />
+  <title>Kerala Health WhatsApp Bot — Case Study</title>
+  <style>
+    :root{--green:#075e54;--deep:#064e46;--mint:#d9fdd3;--paper:#f4f0e8;--ink:#18332d;--muted:#71817b;--line:#dce6e0;--gold:#f3c767;--soft:#e8f4ec}
+    *{box-sizing:border-box}body{margin:0;background:#eef4f0;color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}button{font:inherit}
+    .page{min-height:100vh;background:radial-gradient(ellipse at 75% 15%,#dcefe5 0,transparent 32%),#f6f8f6}.top{max-width:1240px;margin:auto;padding:25px 34px 18px;display:flex;align-items:center;justify-content:space-between}.brand{display:flex;align-items:center;gap:12px}.brandmark{width:40px;height:40px;border-radius:14px;background:var(--green);color:#fff;display:grid;place-items:center;font-size:19px;box-shadow:0 6px 14px #075e5428}.eyebrow{font-size:10px;letter-spacing:.16em;text-transform:uppercase;font-weight:800;color:#5d8173}.brandname{font-size:14px;font-weight:750;margin-top:3px}.topnote{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:8px}.dot{width:7px;height:7px;background:#62b984;border-radius:99px}
+    .layout{max-width:1240px;margin:auto;padding:12px 34px 35px;display:grid;grid-template-columns:minmax(350px,.92fr) minmax(470px,1.08fr);gap:58px;align-items:center}.intro{padding:12px 0 12px 10px;max-width:490px}.kicker{display:inline-flex;align-items:center;gap:8px;color:#477467;background:#e6f3eb;padding:8px 11px;border-radius:20px;font-size:11px;font-weight:750;letter-spacing:.04em}.kicker i{font-style:normal;color:#a77612}.intro h1{font-size:clamp(36px,4vw,56px);letter-spacing:-.055em;line-height:1.02;margin:19px 0 16px;color:#123d34}.intro>p{font-size:15px;line-height:1.7;color:#62736d;margin:0;max-width:430px}.intro .support{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#83918b;font-weight:800;margin-top:34px}
+    .phone-wrap{display:flex;justify-content:center}.phone{width:min(100%,430px);height:min(820px,calc(100vh - 100px));min-height:660px;border:9px solid #1b2925;border-radius:36px;overflow:hidden;background:var(--paper);box-shadow:0 30px 80px #17382e25,0 6px 16px #17382e14;display:flex;flex-direction:column}.status{height:24px;flex:none;background:var(--green);color:#e8f5ef;padding:5px 17px 0;font-size:10px;display:flex;justify-content:space-between}.chatbar{height:58px;flex:none;background:var(--green);display:flex;align-items:center;gap:11px;padding:0 13px;color:#fff;box-shadow:0 2px 5px #0002;z-index:1}.backchevron{font-size:24px;font-weight:300;opacity:.9}.avatar{width:34px;height:34px;border-radius:50%;background:#e2f3e9;color:var(--green);display:grid;place-items:center;font-weight:850}.contact{font-size:13px;font-weight:750;line-height:1.25}.contact small{display:block;font-size:10px;font-weight:450;opacity:.78;margin-top:3px}.baricons{margin-left:auto;letter-spacing:8px;font-size:17px}.chat{flex:1;min-height:0;overflow-y:auto;padding:14px 11px 10px;display:flex;flex-direction:column;gap:9px;background-color:#efe9df;background-image:radial-gradient(#d7d5ca 1px,transparent 1px);background-size:18px 18px;scrollbar-width:thin;scrollbar-color:#bfcac2 transparent}.bubble{max-width:94%;align-self:flex-start;background:#fff;border-radius:4px 13px 13px 13px;padding:10px 11px 8px;box-shadow:0 1px 2px #283e3515;font-size:12px;line-height:1.5;animation:arrive .2s ease-out}.bubble h2{font-size:14px;margin:0 0 6px;color:#164a3f;line-height:1.3}.bubble p{margin:5px 0}.bubble .mini{font-size:10px;color:#75817c}.time{text-align:right;color:#91a099;font-size:9px;margin-top:5px}.topic-list{align-self:flex-start;display:flex;flex-direction:column;gap:6px;width:96%;padding-left:1px}.topic{background:#fff;border:1px solid #dbe8df;border-radius:10px;overflow:hidden;box-shadow:0 1px 2px #283e350c}.topic-toggle{width:100%;border:0;background:transparent;color:#176556;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:10px 11px;text-align:left;font-size:11.5px;font-weight:700}.topic-toggle:hover,.topic-toggle:focus-visible{outline:none;background:#f0f8f2}.topic-toggle .topic-icon{color:#93b8a8;font-size:15px;transition:transform .2s}.topic-toggle[aria-expanded="true"] .topic-icon{transform:rotate(180deg)}.topic-content{padding:1px 11px 11px;font-size:11px;line-height:1.55;color:#314d43}.topic-content[hidden]{display:none}.topic-content h2{font-size:13px;color:#164a3f;margin:2px 0 7px;line-height:1.35}.topic-content h3{font-size:11px;color:#256252;margin:12px 0 4px;line-height:1.4}.topic-content p{margin:5px 0}.topic-content .eyeline{font-size:9px;text-transform:uppercase;letter-spacing:.12em;color:#83938b;font-weight:800;margin:0 0 3px}.topic-content .note{background:#fff8e8;border-left:3px solid var(--gold);padding:8px 9px;border-radius:3px;color:#695522;margin-top:8px}.topic-content ul{padding-left:17px;margin:5px 0 8px}.topic-content li{margin:3px 0}.topic-content .pills{display:flex;flex-wrap:wrap;gap:5px;margin-top:7px}.topic-content .pill{padding:3px 8px;border-radius:12px;background:#e9f5ed;color:#28664f;font-size:9px;font-weight:700}.topic-content .divider{height:1px;background:#edf0ed;margin:9px 0}
+    .content-table-wrap{overflow-x:auto;margin:7px 0;border:1px solid #e0e9e3;border-radius:8px}.content-table{width:100%;border-collapse:collapse;font-size:9.5px;min-width:410px}.content-table th{background:#eaf5ed;color:#205b4c;text-align:left;font-size:9px;padding:7px}.content-table td{padding:7px;border-top:1px solid #edf1ee;vertical-align:top}.cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;margin:7px 0}.info-card{padding:8px;background:#f4f8f4;border:1px solid #e2ece4;border-radius:8px}.info-card strong{display:block;font-size:10px;color:#205b4c;margin-bottom:3px}.info-card span{font-size:9.5px;line-height:1.4;color:#64756c}.steps{display:grid;gap:5px;margin:7px 0}.step{display:grid;grid-template-columns:21px 1fr;gap:7px;align-items:start}.step-number{width:19px;height:19px;border-radius:50%;display:grid;place-items:center;background:#e5f3e9;color:#176556;font-size:9px;font-weight:800}.step-copy strong{display:block;color:#205b4c;font-size:10px}.step-copy span{font-size:9.5px;color:#687970}.stat-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;margin:7px 0}.stat{padding:8px;background:#f0f7f1;border-radius:8px}.stat b{display:block;color:#176556;font-size:11px}.stat span{font-size:9px;color:#708077}.figure{margin:8px 0;padding:7px;background:#f4f8f4;border:1px solid #e1ebe4;border-radius:9px}.figure img{display:block;width:100%;height:auto;border-radius:6px}.figure figcaption{font-size:9px;color:#71817b;padding:5px 2px 1px}.composer{height:47px;flex:none;background:#f7f7f5;display:flex;align-items:center;gap:9px;padding:5px 9px}.composer .fakeinput{flex:1;border-radius:20px;background:#fff;padding:9px 13px;color:#9aa59f;font-size:11px}.composer .clip{color:#84958d;font-size:17px;padding-left:3px}.mic{width:33px;height:33px;border-radius:50%;background:#168b68;color:#fff;border:0;display:grid;place-items:center;font-size:15px}.footer{max-width:1240px;margin:auto;padding:0 34px 20px;display:flex;justify-content:space-between;color:#87948e;font-size:10px}.footer span:last-child{color:#6c8279}.content-link {display: inline-block; margin: 6px 0; padding: 8px 12px; border-radius: 8px; background: #075e54; color: #fff; font-weight: 700; text-decoration: none; }.content-link:hover {background: #064e46;}.topic-divider{border:0;border-top:1px solid #dfe9e2;margin:10px 0;width:100%}.figure img{cursor:pointer}.image-zoom{position:fixed;inset:0;z-index:20;display:grid;place-items:center;padding:24px;background:#07120feF;opacity:0;visibility:hidden;transition:opacity .18s ease,visibility .18s ease}.image-zoom.open{opacity:1;visibility:visible}.image-zoom img{display:block;max-width:min(94vw,1500px);max-height:calc(100dvh - 100px);width:auto;height:auto;object-fit:contain;border-radius:8px;box-shadow:0 18px 70px #0008}.image-zoom figcaption{color:#fff;text-align:center;font-size:13px;margin-top:12px}.image-zoom-close{position:absolute;right:18px;top:16px;width:44px;height:44px;border:1px solid #ffffff55;border-radius:50%;background:#ffffff1c;color:white;font-size:27px;line-height:1;cursor:pointer}.image-zoom-close:hover,.image-zoom-close:focus-visible{background:#ffffff35;outline:2px solid white}.image-zoom figure{margin:0;max-width:100%;max-height:100%;display:flex;flex-direction:column;align-items:center}.image-zoom[hidden]{display:none}
+    @keyframes arrive{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}@media(max-width:900px){.layout{grid-template-columns:1fr;gap:15px;padding:4px 16px 20px}.intro{max-width:650px;margin:0 auto;padding:9px 10px;text-align:center}.intro>p{margin:0 auto}.intro .support{margin-top:13px}.phone{height:min(730px,calc(100dvh - 230px));min-height:540px}.top{padding:17px 20px 10px}.footer{padding:0 20px 14px}}
+    @media(max-width:520px){.topnote{display:none}.top{padding:12px 14px 7px}.brandmark{width:34px;height:34px}.layout{padding:0 7px 12px;gap:7px}.intro{padding:7px 16px}.intro h1{font-size:29px;margin:10px 0 8px}.intro>p{font-size:11.5px;line-height:1.45}.intro .support{font-size:9px;margin-top:9px}.kicker{padding:5px 8px;font-size:9px}.phone{width:100%;height:calc(100dvh - 196px);min-height:490px;max-height:730px;border-width:6px;border-radius:27px}.chat{padding:10px 8px 7px}.topic-content{font-size:10.5px}.content-table{min-width:390px}.footer{padding:0 12px 9px;font-size:9px}}
+    @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="top"><div class="brand"><div class="brandmark">✳</div><div><div class="eyebrow">Product design case study</div><div class="brandname">Kerala Health · WhatsApp assistant</div></div></div><div class="topnote"></div></header>
+    <main class="layout">
+      <section class="intro"><div class="kicker"><i>✦</i> A guided healthcare experience</div><h1>Healthcare, one clear message at a time.</h1><p>A case study exploring how a familiar, multilingual chat could make public-hospital appointments easier to navigate.</p><div class="support">Tap a topic to expand or collapse</div></section>
+      <section class="phone-wrap" aria-label="Interactive WhatsApp-style case study"><div class="phone"><div class="status"><span id="current-time" aria-label="Current local time"></span><span>●●● ▰</span></div><div class="chatbar"><span class="backchevron" aria-hidden="true">‹</span><div class="avatar">✚</div><div class="contact">Kerala Health Bot<small>Case study · interactive prototype</small></div><div class="baricons" aria-hidden="true">⌕ ⋮</div></div><div class="chat" id="chat" aria-live="polite" aria-label="Case study chat"></div><div class="composer"><span class="clip" aria-hidden="true">⌕</span><div class="fakeinput">Choose a topic below…</div><button class="mic" aria-label="Message">➤</button></div></div></section>
+    </main>
+    <!-- <footer class="footer"><span>Concept prototype · sample content only</span><span>Designed for clarity, access & confidence</span></footer> -->
+  </div>
+  <script>
+    // Each topic owns an ordered set of content blocks. Add, remove, or rearrange
+    // blocks per topic without changing the accordion interaction.
+    const journeyImage='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 190"><rect width="720" height="190" rx="16" fill="#eaf5ed"/><path d="M100 77H620" stroke="#9cc9ad" stroke-width="5" stroke-linecap="round" stroke-dasharray="7 10"/><g font-family="Arial,sans-serif" text-anchor="middle"><g fill="#075e54"><circle cx="105" cy="77" r="25"/><circle cx="275" cy="77" r="25"/><circle cx="445" cy="77" r="25"/><circle cx="615" cy="77" r="25"/></g><g fill="white" font-size="18" font-weight="700"><text x="105" y="84">1</text><text x="275" y="84">2</text><text x="445" y="84">3</text><text x="615" y="84">4</text></g><g fill="#245b4c" font-size="15" font-weight="700"><text x="105" y="127">Choose</text><text x="275" y="127">Verify</text><text x="445" y="127">Review</text><text x="615" y="127">Confirm</text></g><g fill="#6c8075" font-size="11"><text x="105" y="148">a service</text><text x="275" y="148">when needed</text><text x="445" y="148">your details</text><text x="615" y="148">the outcome</text></g></g></svg>`);
+    const userStory1 = 'Images/userStory1.png'
+    const userStory2 = 'Images/userStory2.png'
+    const userStory3 = 'Images/userStory3.png'
+    const userStory4 = 'Images/userStory4.png'
+
+    const topics=[
+
+      {title:'01  The Overview',icon:'✦',blocks:[
+        {type:'paragraph',text:'Government-hospital appointments can involve several steps: choosing a hospital and department, finding a doctor, checking availability, and confirming the booking.'},
+        {type:'paragraph',text:'For older adults and people with limited literacy or digital confidence, navigating a new healthcare app may feel confusing. This case study explores a WhatsApp-style assistant that guides users through each step in their preferred language, with clear instructions and access to human support.'},
+        {type:'paragraph',text:'The goal is not to replace government healthcare applications or hospital staff. It is to explore a familiar, guided entry point for routine appointment tasks while retaining clear confirmation and access to human support.'},
+        {type:'heading',level:3,text:'What the concept explores'},
+        {type:'cards',items:[['Language selection'],['UHID entry and sample verification'],['Guided appointment booking, including hospital, department, doctor, and time-slot selection'],['Appointment cancellation and rescheduling'],['Medicine information'],['Booking review and confirmation with a token and QR-like ticket'],['Error handling and human support after repeated UHID failures']]},
+        {type:'callout',text:'This is a prototype using sample data. It does not verify real patient identities, access live hospital availability, or connect to government systems.'}
+      ]},
+
+      {title:'02  The Problem',icon:'◌',blocks:[
+        {type:'paragraph',text:'Healthcare access should be simple for everyone.'},
+        {type:'paragraph',text:'Booking a government-hospital appointment involves several decisions: choosing a hospital, finding the right department and doctor, selecting a suitable time, and confirming the appointment. For people unfamiliar with digital healthcare apps, this process can feel confusing.'},
+        {type:'heading',level:3,text:'Problem statement'},
+        {type:'paragraph',text:'How might we make government-hospital appointments easier for older adults and people with limited digital confidence, without making them navigate a complicated application?'},
+        {type:'heading',level:3,text:'Why this matters ?'},
+        {type:'paragraph',text:'Older adults and people with limited literacy or digital confidence may face challenges such as:'},
+        {type:'bullets',items:['Complex navigation: Not knowing where to start or what to select.','Difficult language: Unfamiliar terms or instructions that are hard to understand.','Too many steps: Feeling overwhelmed by multiple choices.','Fear of mistakes: Worrying about selecting the wrong hospital or appointment.','Unclear confirmation: Not knowing whether the booking was successful.','Need for assistance: Depending on family members or hospital staff to complete the process.']},
+        {type:'paragraph',text:'These are potential user challenges that need to be validated through research and usability testing.'},
+        {type:'heading',level:3,text:'Product opportunity'},
+        {type:'paragraph',text:'A familiar, multilingual WhatsApp-style assistant could guide users through one step at a time, with clear instructions, simple choices, and access to human support when needed.'},
+
+        {type:'callout',text:'How might we make government-hospital appointments easier for people with limited digital confidence, without making them navigate a complicated application?'},
+        {type:'note',text:'These are potential user challenges that still need validation through research and usability testing.'}
+      ]},
+
+      {title:'03  Target Users and Context',icon:'◎',blocks:[
+        {type:'heading',level:3,text:'Primary users'},
+        {type:'paragraph',text:'The main users are government-hospital patients with different levels of digital confidence, literacy, language preferences, and accessibility needs.'},
+        {type:'heading',level:3,text:'Other stakeholders'},
+        {type:'bullets',items:['Caregivers : Help patients with their consent.','Hospital staff : Support users when the bot cannot help.','Government administrators : Ensure reliable services, accurate information, and privacy.','Digital-service teams: Manage integration, security, and maintenance.']},
+        {type:'heading',level:3,text:'Key user needs'},
+        {type:'paragraph',text:'Users should be able to choose their language, understand why their UHID is required, find the right hospital and department, review and correct their choices, receive clear booking confirmation, and get human support when needed.'},
+        {type:'table',headers:['User group','Key Need','Design response'],rows:[['Older adults','Clear instructions and reassurance','Readable text and visible confirmation'],['People with limited literacy','Simple, easy-to-understand language','Short messages and guided choices'],['Users with low digital confidence','Help knowing what to do next','One question at a time'],['Mother tongue- first users','Familiar language','Language selection at the start'],['Patients and caregivers','An easier booking process','Fewer steps and a clear summary'],['Users who make mistakes','A way to correct errors','Back, edit, restart, and human support']]},
+        {type:'note',text:'These groups may overlap. An older adult may prefer Malayalam and rely on a family member for support.'}
+      ]},
+
+      {title:'04  Product Goal and Hypothesis',icon:'↗',blocks:[
+        {type:'heading',level:3,text:'User goal'},
+        {type:'paragraph',text:'Book or manage a hospital appointment confidently, without unnecessary confusion.'},
+        {type:'heading',level:3,text:'Product goal'},
+        {type:'paragraph',text:'Create a simple, multilingual WhatsApp-style assistant that guides users through appointment tasks and clearly explains each step.'},
+        {type:'heading',level:3,text:'Product hypothesis'},
+        {type:'callout',text:'A familiar chat interface with simple language, guided choices and clear instructions may help users complete appointments with less confusion and assistance.'},
+        {type:'heading',level:3,text:'Product Principles'},
+        {type:'bullets',items:['Familiarity: Use a simple chat instead of a complex dashboard.','Clarity: Ask one question at a time using everyday language.','Choice: Offer easy-to-select options.','Control: Let users review, edit, cancel, or return to the menu.','Trust: Explain why sensitive information is needed and what happens next.','Recovery: Make errors clear and show how to proceed.','Human support: Allow users to get help when automation is not enough.']},
+
+      ]},
+      {title:'05 User Stories', icon:'▤',blocks:[
+        {type:'heading',level:2,text:'1. Simplifying Appointment Booking for Older Adults'},
+        {type:'image',src:userStory1},
+        {type:'paragraph',text:'Scenario: Long queues and a confusing website'},
+        {type:'note',text:'User story : As an elderly patient, I want to book an appointment through simple WhatsApp messages, so that I can avoid navigating a confusing website and reduce unnecessary waiting.'},
+        {type:'heading',level:3,text:'Expected outcome'},
+        {type:'bullets',items:['Step-by-step booking instructions.','Simple, easy-to-understand choices.','Clear appointment summary and confirmation.']},
+        {type:'divider'},
+
+        {type:'heading',level:2,text:'2. Making Appointment Booking Accessible Across Languages'},
+        {type:'image',src:userStory2},
+        {type:'paragraph',text:'Scenario: Difficulty communicating at hospital reception'},
+        {type:'note',text:'User story : As a patient who speaks a different language, I want to select my preferred language and follow clear instructions, so that I can book an appointment without struggling to communicate at the hospital reception.'},
+        {type:'heading',level:3,text:'Expected outcome'},
+        {type:'bullets',items:['Language selection at the start.','Guided choices in the selected language.','A clear and understandable booking process.']},
+        {type:'divider'},
+
+        {type:'heading',level:2,text:'3. Managing Appointments When Plans Change'},
+        {type:'image',src:userStory3},
+        {type:'paragraph',text:'Scenario: A patient needs to cancel or reschedule an appointment'},
+        {type:'note',text:'User story : As a patient whose plans have changed, I want to cancel or reschedule my appointment through WhatsApp, so that I can manage my booking without repeating the entire process or visiting the hospital.'},
+        {type:'heading',level:3,text:'Expected outcome'},
+        {type:'bullets',items:['Identify and review the existing appointment.','Choose cancellation or an available alternative slot.','Receive a clear status message confirming the outcome.']},
+        {type:'divider'},
+
+        {type:'heading',level:2,text:'4. Improving Access to Prescription Information'},
+        {type:'image',src:userStory4},
+        {type:'paragraph',text:'Scenario: A handwritten prescription is difficult to read'},
+        {type:'note',text:'User story : As a patient whose handwritten prescription is difficult to read, I want to access my available prescription details through a secure verification process, so that I can show the information to the pharmacist more clearly.'},
+        {type:'heading',level:3,text:'Expected outcome'},
+        {type:'bullets',items:['Verify the patient identity before displaying sensitive information.','Present available, verified prescription details clearly.','Direct unclear or conflicting prescription information to the prescribing clinician for confirmation.']},
+
+      ]},
+
+      {title:'06 Why a WhatsApp-Style Experience?',icon:'✳',blocks:[
+        {type:'paragraph',text:'Instead of a complex dashboard, the assistant guides users through a simple conversation. A familiar chat interface may make booking easier, but this needs to be tested, especially with older adults and first-time smartphone users.'},
+        {type:'heading',level:3,text:'Why this approach?'},
+        {type:'bullets',items:['Breaks booking into small, manageable steps.','Keeps instructions visible in the chat.','Offers language choices from the start.','Uses simple prompts and clear confirmations.','Provides a possible route to human support.']},
+        {type:'paragraph',text:'Someone facing long queues and a confusing website wants simple WhatsApp messages to reduce unnecessary waiting.'},
+        {type:'heading',level:3,text:'Important limitation'},
+        {type:'paragraph',text:'This prototype is not a live WhatsApp service. A real implementation would require approved WhatsApp integration, secure backend services, reliable hospital data, identity verification, clear operational ownership, and privacy and regulatory reviews.'},
+      ]},
+
+      {title:'07  The user journey',icon:'⇢',blocks:[
+        // {type:'image',src:journeyImage,alt:'Four steps: choose a service, verify when needed, review details, and confirm the outcome',caption:'A simplified view of the proposed interaction.'},
+        {type:'steps',items:[['Start the conversation','Open WhatsApp and receive a welcome message.'],['Choose language','Select Malayalam, English, Hindi, or Tamil.'],['Select a service','Book, cancel, reschedule, or view medicine details.'],['Follow guided steps','Provide required details and verify identity where needed.'],['Review and confirm','Check the details before completing the request.'],['Get the outcome','Receive confirmation or clear guidance to human support.']]},
+        {type:'note',text:'Prototype note: These steps represent the intended experience using sample data; live hospital systems are not connected.'}
+      ]},
+
+
+      {title:'08  Prototype',icon:'▤',blocks:[
+        {type:'paragraph',text:'The interactive prototype brings the proposed user journey to life before a real implementation.'},
+        {type:'link', text:'View Prototype', href:'https://your-public-prototype-url.example'},        
+        {type:'heading',level:3,text:'What it demonstrates ?'},
+        {type:'paragraph',text:'It includes a WhatsApp-style chat, language selection, service menu, patient identifier entry, appointment booking, cancellation, rescheduling, and medicine-information navigation.'},
+        {type:'paragraph',text:'Language → Service → UHID → Guided steps → Review → Confirmation'},
+        {type:'heading',level:3,text:'What it does not do'},
+        {type:'bullets',items:['Verify real patient identities.','Access live hospital or doctor availability.','Connect to government healthcare systems.','Create or cancel real appointments.','Securely store or transmit real patient data.','Provide clinical advice or emergency triage.']},
+      ]},
+
+      {title:'09  Success Metrics',icon:'☏',blocks:[
+        {type:'paragraph',text:'The next step is to test whether the experience makes healthcare tasks easier. These are proposed metrics; no results are available yet.'},
+        {type:'heading',level:2,text:'1. North Star Metric: Successful Task Completion Rate'},
+        {type:'paragraph',text:'The percentage of users who start and successfully complete a task. Results should be reviewed by service and, where appropriate, by user group to identify accessibility gaps.'},
+        {type:'heading',level:2,text:'2. Guardrail metrics'},
+        {type:'bullets',items:['Incorrect or duplicate bookings','Cancellations caused by confusion','Authentication lockouts','Failed or delayed confirmations','Privacy or security incidents','Completion gaps across language and accessibility groups']},
+        {type:'heading',level:2,text:'3. Supporting metrics'},
+        {type:'bullets',items:['Appointment completion rate: How many booking attempts reach confirmation.','Step-level drop-off: Where users leave the journey.','UHID verification success: How often verification succeeds.','Time to complete: How long a task takes.','Error recovery rate: Whether users can recover from mistakes.','Rescheduling completion: How many rescheduling attempts succeed.','Human handoff rate: How often users need support.','Assistance-needed rate: How often users need another person\'s help.','Comprehension and confidence: Whether users understand the next step and feel confident using the service.']},
+      ]},
+      
+      {title:'10  Risks & assumptions',icon:'◇',blocks:[
+        {type:'heading',level:3,text:'Risks'},
+        {type:'cards',items:[['Accessibility','Chat may still be difficult for users with visual, cognitive, language, or motor barriers.'],['Trust','Users may mistake a prototype or unofficial account for an authorised government service.'],['Data Privacy','Patient identifiers and appointment details need secure handling.'],['Integration','Inaccurate or delayed hospital data may mislead users.'],['Human Support','Handoffs fail if no responsible team is available.'],['Digital Exclusion','Some users lack smartphones, reliable internet, or WhatsApp access.']]},
+        {type:'heading',level:3,text:'Assumptions'},
+        {type:'bullets',items:['Users find WhatsApp familiar and easier than a standalone app.','Guided choices simplify the booking process.','Users can find and enter their UHID with clear instructions.','Language options meet users’ needs.','Hospitals can provide accurate, up-to-date appointment data.','Human support is available when the bot cannot help.']}
+      ]},
+
+      {title:'11  Key learnings',icon:'✧',blocks:[
+        {type:'cards',items:[['Simplicity takes work','Complex backend processes can still feel simple through guided choices.'],['Errors are part of the journey','Wrong inputs, unavailable slots, and requests for help need clear recovery options.'],['Accessibility starts with users','A familiar interface isn\'t automatically accessible. Language, literacy, digital confidence, and alternative access options matter.'],['Confirmation builds trust','Users should know whether an action succeeded and be able to review the details.'],['Prototypes test assumptions','They help users experience a proposed solution but don\'t prove its effectiveness.'],['Measure meaningful outcomes','Success means accuracy, safety, clarity, and inclusion—not just speed.']]},
+        {type:'paragraph',text:'Test the prototype with older adults, Malayalam-first users, people with limited literacy or digital confidence, and caregivers. Use their feedback to identify problems and improve the experience before considering a real-world pilot.'},
+        {type:'callout',text:'The intended outcome is a clearer, more confident way to manage a routine healthcare task.'}
+      ]},
+
+      {title:'12  Conclusion',icon:'✧',blocks:[
+        {type:'paragraph',text:'The Kerala Health WhatsApp Bot aims to make government-hospital appointments simpler through a familiar, guided conversation, especially for people who find digital services difficult to use.'},
+        {type:'paragraph',text:'The next step is to test the prototype with older adults, Malayalam-first users, people with limited literacy or digital confidence, and caregivers. Their feedback will help identify problems and improve the experience before considering a real-world pilot.'},
+        {type:'heading',level:3,text:'Thank You'},
+      ]}
+    ];
+
+    const chat=document.querySelector('#chat');
+
+    const currentTime=document.querySelector('#current-time');
+    const localTimeFormatter=new Intl.DateTimeFormat(undefined,{hour:'numeric',minute:'2-digit',hour12:true});
+    function timeNow(){return localTimeFormatter.format(new Date())}
+    function updateClock(){currentTime.textContent=timeNow()}
+
+    function el(tag,className,text){const node=document.createElement(tag);if(className)node.className=className;if(text!==undefined)node.textContent=text;return node}
+    function renderBlock(block){
+        if(block.type==='paragraph')return el('p','',block.text);
+        if(block.type==='divider')return el('hr','topic-divider');
+        if(block.type==='heading')return el(block.level===2?'h2':'h3','',block.text);
+        if(block.type==='bullets'){const list=el('ul');block.items.forEach(item=>list.append(el('li','',item)));return list}
+        if(block.type==='table'){const wrap=el('div','content-table-wrap');const table=el('table','content-table');const head=el('thead');const tr=el('tr');block.headers.forEach(label=>tr.append(el('th','',label)));head.append(tr);table.append(head);const body=el('tbody');block.rows.forEach(row=>{const r=el('tr');row.forEach(value=>r.append(el('td','',value)));body.append(r)});table.append(body);wrap.append(table);return wrap}
+        if(block.type==='cards'){const grid=el('div','cards');block.items.forEach(([title,description])=>{const card=el('div','info-card');card.append(el('strong','',title),el('span','',description));grid.append(card)});return grid}
+        if(block.type==='steps'){const list=el('div','steps');block.items.forEach(([title,description],i)=>{const row=el('div','step');row.append(el('span','step-number',String(i+1)));const copy=el('div','step-copy');copy.append(el('strong','',title),el('span','',description));row.append(copy);list.append(row)});return list}
+        // if(block.type==='image'){const figure=el('figure','figure');const image=el('img');image.src=block.src;image.alt=block.alt||'';figure.append(image);if(block.caption)figure.append(el('figcaption','',block.caption));return figure}
+        if(block.type==='image'){const figure=el('figure','figure');const image=el('img');image.src=block.src;image.alt=block.alt||'';image.tabIndex=0;image.setAttribute('role','button');image.setAttribute('aria-label',`Enlarge image: ${block.alt||block.caption||'case study image'}`);const open=()=>openImage(image.src,image.alt,block.caption);image.addEventListener('click',open);image.addEventListener('keydown',event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();open()}});figure.append(image);if(block.caption)figure.append(el('figcaption','',block.caption));return figure}
+        if(block.type==='callout')return el('div','note',block.text);
+        if(block.type==='note')return el('p','note',block.text);
+        if(block.type==='stat'){const box=el('div','stat');box.append(el('b','',block.value),el('span','',block.label));return box}
+        if (block.type === 'link') {
+            const link = el('a', 'content-link', block.text);
+            link.href = block.href;
+            link.target = '_blank';
+            link.rel = 'noopener noreferrer';
+            return link;
+        }
+        return document.createDocumentFragment();
+    }
+    function renderTopic(topic,index){
+      const item=el('section','topic');const button=el('button','topic-toggle');const panelId=`topic-content-${index}`;button.type='button';button.id=`topic-toggle-${index}`;button.setAttribute('aria-expanded','false');button.setAttribute('aria-controls',panelId);button.append(el('span','',topic.title),el('span','topic-icon','⌄'));
+      const panel=el('div','topic-content');panel.id=panelId;panel.setAttribute('role','region');panel.setAttribute('aria-labelledby',button.id);panel.hidden=true;panel.append(el('h2','',topic.heading));topic.blocks.forEach(block=>panel.append(renderBlock(block)));
+      button.addEventListener('click',()=>{const expanded=button.getAttribute('aria-expanded')==='true';button.setAttribute('aria-expanded',String(!expanded));panel.hidden=expanded});item.append(button,panel);return item;
+    }
+
+    const lightbox=document.createElement('div');lightbox.className='image-zoom';lightbox.hidden=true;lightbox.setAttribute('role','dialog');lightbox.setAttribute('aria-modal','true');lightbox.setAttribute('aria-label','Expanded image preview');
+    const lightboxClose=el('button','image-zoom-close','×');lightboxClose.type='button';lightboxClose.setAttribute('aria-label','Close image preview');const lightboxFigure=el('figure');const lightboxImage=el('img');lightboxImage.alt='';const lightboxCaption=el('figcaption');lightboxFigure.append(lightboxImage,lightboxCaption);lightbox.append(lightboxClose,lightboxFigure);document.body.append(lightbox);
+    let previousFocus=null;
+    function openImage(src,alt,caption){previousFocus=document.activeElement;lightboxImage.src=src;lightboxImage.alt=alt;lightboxCaption.textContent=caption||'';lightbox.hidden=false;requestAnimationFrame(()=>lightbox.classList.add('open'));document.body.style.overflow='hidden';lightboxClose.focus()}
+    function closeImage(){lightbox.classList.remove('open');document.body.style.overflow='';setTimeout(()=>{lightbox.hidden=true;if(previousFocus)previousFocus.focus()},180)}
+    lightboxClose.addEventListener('click',closeImage);lightbox.addEventListener('click',event=>{if(event.target===lightbox)closeImage()});document.addEventListener('keydown',event=>{if(event.key==='Escape'&&!lightbox.hidden)closeImage()});
+
+
+    function render(){
+      const welcome=el('div','bubble');welcome.append(el('h2','', 'Hello 👋'),el('p','', 'Welcome to the Kerala Health WhatsApp Bot case study.'),el('p','', 'Explore how a guided, multilingual chat could make public-hospital appointments easier to navigate.'),el('p','mini','Tap any topic below to read it here. Tap again to close it.'),el('div','time',`${timeNow()} ✓✓`));chat.append(welcome);
+      const list=el('div','topic-list');topics.forEach((topic,index)=>list.append(renderTopic(topic,index)));chat.append(list);chat.scrollTop=0;
+    }
+    
+    updateClock();setInterval(updateClock,15000);render();
+    
+  </script>
+</body>
+</html>
